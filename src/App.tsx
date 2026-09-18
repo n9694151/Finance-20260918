@@ -5,6 +5,7 @@ import { MarketTicker } from './components/MarketTicker';
 import { ResearchAgentProgress, AgentStep } from './components/ResearchAgentProgress';
 import { ResearchReportView } from './components/ResearchReportView';
 import { FuturesResearchView } from './components/FuturesResearchView';
+import { RealEstateResearchView } from './components/RealEstateResearchView';
 import {
   MARKET_INDICES,
   MOCK_REPORTS,
@@ -12,10 +13,15 @@ import {
   getOrGenerateResearchReport,
 } from './mock/financeData';
 import {
+  PRESET_REAL_ESTATE_REPORTS,
+  getOrGenerateRealEstateReport,
+} from './mock/realEstateData';
+import {
   ActiveTab,
   ResearchReport,
   ResearchHistoryItem,
 } from './types';
+import { RealEstateReport } from './types/realEstate';
 import {
   Search,
   Sparkles,
@@ -51,6 +57,9 @@ export const App: React.FC = () => {
   const [isResearching, setIsResearching] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [currentReport, setCurrentReport] = useState<ResearchReport | null>(MOCK_REPORTS['2330']);
+  const [realEstateReport, setRealEstateReport] = useState<RealEstateReport>(
+    PRESET_REAL_ESTATE_REPORTS['高雄市左營區']
+  );
   const [watchlist, setWatchlist] = useState<string[]>(['2330']);
   const [history, setHistory] = useState<ResearchHistoryItem[]>([
     {
@@ -69,6 +78,14 @@ export const App: React.FC = () => {
       priceAtResearch: 1320,
       summary: '旗艦天璣晶片動能強勁，殖利率4.25%具下檔防禦。',
     },
+    {
+      id: 'h-3',
+      symbol: 'RE-KHH-ZY',
+      name: '高雄市左營區 實價登錄',
+      timestamp: '2026-09-18 13:50',
+      priceAtResearch: 38.5,
+      summary: '內政部實價均價 38.5 萬/坪，近三年+23.4%，毛投報 2.63%，淨投報 2.05%，每月實質淨現金流 -14,860 元。',
+    },
   ]);
 
   // 處理搜尋與 Agent 協同研究觸發
@@ -81,9 +98,31 @@ export const App: React.FC = () => {
       trimmed.toUpperCase().includes('TXF') ||
       trimmed.toUpperCase().includes('MTX');
 
+    const isRealEstateQuery =
+      activeTab === 'real-estate' ||
+      trimmed.includes('左營') ||
+      trimmed.includes('大安') ||
+      trimmed.includes('板橋') ||
+      trimmed.includes('西屯') ||
+      trimmed.includes('竹北') ||
+      trimmed.includes('實價登錄') ||
+      trimmed.includes('房地產') ||
+      trimmed.includes('不動產') ||
+      trimmed.includes('租金') ||
+      trimmed.includes('社區') ||
+      trimmed.includes('房價') ||
+      trimmed.includes('投報') ||
+      trimmed.includes('房貸') ||
+      trimmed.includes('重劃區') ||
+      trimmed.endsWith('區') ||
+      trimmed.includes('巨蛋') ||
+      trimmed.includes('七期') ||
+      trimmed.includes('新板') ||
+      ['台北市', '新北市', '台中市', '高雄市', '台南市', '桃園市', '新竹縣', '新竹市'].some((c) => trimmed.includes(c));
+
     setIsResearching(true);
     setCurrentStepIndex(0);
-    setActiveTab(isFuturesQuery ? 'futures' : 'stock-research');
+    setActiveTab(isRealEstateQuery ? 'real-estate' : isFuturesQuery ? 'futures' : 'stock-research');
 
     // 模擬多 Agent 協同逐步執行
     let step = 0;
@@ -95,7 +134,22 @@ export const App: React.FC = () => {
         clearInterval(interval);
         setIsResearching(false);
 
-        if (isFuturesQuery) {
+        if (isRealEstateQuery) {
+          const reRep = getOrGenerateRealEstateReport(trimmed);
+          setRealEstateReport(reRep);
+          setActiveTab('real-estate');
+          setHistory((prev) => [
+            {
+              id: `h-${Date.now()}`,
+              symbol: reRep.id,
+              name: `${reRep.regionQuery} 實價登錄`,
+              timestamp: new Date().toLocaleDateString('zh-TW', { hour: '2-digit', minute: '2-digit' }),
+              priceAtResearch: reRep.avgPricePerPing1Y,
+              summary: `內政部實價均價 ${reRep.avgPricePerPing1Y} 萬/坪，毛租金投報 ${reRep.defaultYields.grossYield}%，淨投報 ${reRep.defaultYields.netYield}%，每月淨現金流 ${reRep.defaultYields.monthlyNetCashflow.toLocaleString()} 元。`,
+            },
+            ...prev.slice(0, 9),
+          ]);
+        } else if (isFuturesQuery) {
           setActiveTab('futures');
           setHistory((prev) => [
             {
@@ -270,7 +324,7 @@ export const App: React.FC = () => {
                     <Layers className="w-5 h-5 text-indigo-400" />
                     <span>AI 智慧研究中心 8 大 Agent 核心架構</span>
                   </h3>
-                  <span className="text-xs text-cyan-400 font-mono">Phase 1 台股 & Phase 2 期貨已上線</span>
+                  <span className="text-xs text-cyan-400 font-mono">Phase 1 台股、Phase 2 期貨 & Phase 3 實價登錄全數上線</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
@@ -282,13 +336,13 @@ export const App: React.FC = () => {
                     <div className="font-bold text-cyan-400 mb-1">Agent 3: 期貨研究 Agent (Active)</div>
                     <p className="text-slate-400">TAIFEX 台指期、選擇權 PCR、基差與三大法人避險對沖分析。</p>
                   </div>
-                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-purple-500/30 bg-purple-950/10">
-                    <div className="font-bold text-purple-400 mb-1">Agent 5: YouTube 觀點 Agent</div>
-                    <p className="text-slate-400">逐字稿萃取多空情緒，嚴格區隔觀點與事實。</p>
+                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-teal-500/30 bg-teal-950/10">
+                    <div className="font-bold text-teal-400 mb-1">Agent 4: 不動產研究 Agent (Active)</div>
+                    <p className="text-slate-400">內政部實價登錄單價、3層租金投報率與房貸現金流精算。</p>
                   </div>
                   <div className="p-3.5 bg-slate-950/60 rounded-xl border border-rose-500/30 bg-rose-950/10">
                     <div className="font-bold text-rose-400 mb-1">Agent 7: Devil's Advocate (Active)</div>
-                    <p className="text-slate-400">逆向尋找投資盲點、海外折舊與期貨高槓桿風險。</p>
+                    <p className="text-slate-400">逆向質疑投資盲點、信用管制與租金負現金流利差風險。</p>
                   </div>
                 </div>
               </div>
@@ -332,17 +386,12 @@ export const App: React.FC = () => {
             <FuturesResearchView />
           )}
 
-          {/* 房地產研究 Tab (Phase 3 Preview) */}
-          {activeTab === 'real-estate' && (
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-8 text-center max-w-2xl mx-auto space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                <Home className="w-6 h-6" />
-              </div>
-              <h2 className="text-xl font-bold text-white">房地產研究 Agent (Phase 3 籌備中)</h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                核心串接內政部實價登錄資料庫，不只查詢單坪成交價，更完整試算毛租金報酬率、扣除稅費管理費之淨租金報酬率、以及考慮自備款與房貸利率之槓桿後實質現金流投報。
-              </p>
-            </div>
+          {/* 台灣不動產研究 Tab (內政部實價登錄 Agent) */}
+          {activeTab === 'real-estate' && !isResearching && (
+            <RealEstateResearchView
+              report={realEstateReport}
+              onSelectQuery={(q) => setRealEstateReport(getOrGenerateRealEstateReport(q))}
+            />
           )}
 
           {/* 總體經濟 Tab */}
@@ -434,13 +483,28 @@ export const App: React.FC = () => {
                 {history.map((h) => (
                   <div
                     key={h.id}
-                    className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-cyan-500/30 transition-all"
+                    onClick={() => {
+                      if (h.symbol.startsWith('RE-')) {
+                        const rep = getOrGenerateRealEstateReport(h.name.replace(' 實價登錄', ''));
+                        setRealEstateReport(rep);
+                        setActiveTab('real-estate');
+                      } else if (h.symbol === 'TXF') {
+                        setActiveTab('futures');
+                      } else {
+                        const rep = getOrGenerateResearchReport(h.symbol);
+                        setCurrentReport(rep);
+                        setActiveTab('stock-research');
+                      }
+                    }}
+                    className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-cyan-500/30 transition-all cursor-pointer group"
                   >
                     <div>
                       <div className="flex items-center gap-2 font-semibold text-slate-200">
-                        <span className="font-mono text-cyan-400">{h.symbol}</span>
-                        <span>{h.name}</span>
-                        <span className="text-slate-400 font-normal">‧ 研究當時價: NT$ {h.priceAtResearch}</span>
+                        <span className="font-mono text-cyan-400 group-hover:text-cyan-300">{h.symbol}</span>
+                        <span className="group-hover:text-white">{h.name}</span>
+                        <span className="text-slate-400 font-normal">
+                          ‧ 研究當時價: {h.symbol.startsWith('RE-') ? `${h.priceAtResearch} 萬/坪` : `NT$ ${h.priceAtResearch}`}
+                        </span>
                       </div>
                       <p className="text-slate-400 mt-1">{h.summary}</p>
                     </div>

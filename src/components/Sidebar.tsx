@@ -31,7 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'home', label: '首頁總覽', icon: LayoutDashboard },
     { id: 'stock-research', label: '台股研究 Agent', icon: TrendingUp, badge: 'Phase 1' },
     { id: 'futures', label: '期貨研究 Agent', icon: LineChart, badge: 'Phase 2 Live' },
-    { id: 'real-estate', label: '房地產研究 Agent', icon: Home, badge: 'Phase 3' },
+    { id: 'real-estate', label: '房地產研究 Agent', icon: Home, badge: 'Phase 3 Live' },
     { id: 'macro', label: '總體經濟 Agent', icon: Globe },
     { id: 'youtube', label: 'YouTube 觀點 Agent', icon: Tv },
     { id: 'news', label: '新聞研究 Agent', icon: Newspaper },
