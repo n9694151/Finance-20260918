@@ -9,6 +9,7 @@ import {
   MARKET_INDICES,
   MOCK_REPORTS,
   QUICK_SEARCH_PROMPTS,
+  getOrGenerateResearchReport,
 } from './mock/financeData';
 import {
   ActiveTab,
@@ -108,13 +109,8 @@ export const App: React.FC = () => {
             ...prev.slice(0, 9),
           ]);
         } else {
-          let targetKey = '2330';
-          if (trimmed.includes('2454') || trimmed.includes('聯發科')) {
-            targetKey = '2454';
-          } else if (trimmed.includes('2317') || trimmed.includes('鴻海')) {
-            targetKey = '2330'; // fallback to high quality report with notice
-          }
-          const report = MOCK_REPORTS[targetKey] || MOCK_REPORTS['2330'];
+          // 精準匹配日月光、聯發科、鴻海、台積電或自適應生成其他標的研報
+          const report = getOrGenerateResearchReport(trimmed);
           setCurrentReport(report);
           setActiveTab('stock-research');
 

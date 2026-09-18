@@ -325,7 +325,15 @@ export const ResearchReportView: React.FC<ResearchReportViewProps> = ({
             stockName={report.targetName}
             stockSymbol={report.targetSymbol}
             epsData={report.fundamentals.epsRecent8q}
-            industryName={report.targetSymbol === '2330' ? '半導體同業' : 'IC設計同業'}
+            industryName={
+              report.targetSymbol === '2330'
+                ? '半導體同業'
+                : report.targetSymbol === '3711'
+                ? '封裝測試同業'
+                : report.targetSymbol === '2317'
+                ? '電子代工同業'
+                : '同類股同業'
+            }
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
