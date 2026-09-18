@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { MarketTicker } from './components/MarketTicker';
 import { ResearchAgentProgress, AgentStep } from './components/ResearchAgentProgress';
 import { ResearchReportView } from './components/ResearchReportView';
+import { FuturesResearchView } from './components/FuturesResearchView';
 import {
   MARKET_INDICES,
   MOCK_REPORTS,
@@ -72,16 +73,16 @@ export const App: React.FC = () => {
   // 處理搜尋與 Agent 協同研究觸發
   const handleStartResearch = (queryText: string) => {
     const trimmed = queryText.trim() || '2330';
-    let targetKey = '2330';
-    if (trimmed.includes('2454') || trimmed.includes('聯發科')) {
-      targetKey = '2454';
-    } else if (trimmed.includes('2317') || trimmed.includes('鴻海')) {
-      targetKey = '2330'; // fallback to high quality report with notice
-    }
+    const isFuturesQuery =
+      trimmed.includes('台指期') ||
+      trimmed.includes('期貨') ||
+      trimmed.includes('選擇權') ||
+      trimmed.toUpperCase().includes('TXF') ||
+      trimmed.toUpperCase().includes('MTX');
 
     setIsResearching(true);
     setCurrentStepIndex(0);
-    setActiveTab('stock-research');
+    setActiveTab(isFuturesQuery ? 'futures' : 'stock-research');
 
     // 模擬多 Agent 協同逐步執行
     let step = 0;
@@ -92,21 +93,44 @@ export const App: React.FC = () => {
       } else {
         clearInterval(interval);
         setIsResearching(false);
-        const report = MOCK_REPORTS[targetKey] || MOCK_REPORTS['2330'];
-        setCurrentReport(report);
 
-        // 加入研究歷史
-        setHistory((prev) => [
-          {
-            id: `h-${Date.now()}`,
-            symbol: report.targetSymbol,
-            name: report.targetName,
-            timestamp: new Date().toLocaleDateString('zh-TW', { hour: '2-digit', minute: '2-digit' }),
-            priceAtResearch: report.marketPrice.price,
-            summary: `最新PE ${report.marketPrice.peRatio}倍，毛利率 ${report.fundamentals.grossMargin}%，完成 12 項研究驗證與反方風控。`,
-          },
-          ...prev.slice(0, 9),
-        ]);
+        if (isFuturesQuery) {
+          setActiveTab('futures');
+          setHistory((prev) => [
+            {
+              id: `h-${Date.now()}`,
+              symbol: 'TXF',
+              name: '台指期近月 (TAIFEX)',
+              timestamp: new Date().toLocaleDateString('zh-TW', { hour: '2-digit', minute: '2-digit' }),
+              priceAtResearch: 22880,
+              summary: 'TAIFEX 日盤收 22,880 (+210 點)，正價差 +29.68 點，選擇權 PCR 112.41% 偏多防守，外資淨未平倉 -18,450 口。',
+            },
+            ...prev.slice(0, 9),
+          ]);
+        } else {
+          let targetKey = '2330';
+          if (trimmed.includes('2454') || trimmed.includes('聯發科')) {
+            targetKey = '2454';
+          } else if (trimmed.includes('2317') || trimmed.includes('鴻海')) {
+            targetKey = '2330'; // fallback to high quality report with notice
+          }
+          const report = MOCK_REPORTS[targetKey] || MOCK_REPORTS['2330'];
+          setCurrentReport(report);
+          setActiveTab('stock-research');
+
+          // 加入研究歷史
+          setHistory((prev) => [
+            {
+              id: `h-${Date.now()}`,
+              symbol: report.targetSymbol,
+              name: report.targetName,
+              timestamp: new Date().toLocaleDateString('zh-TW', { hour: '2-digit', minute: '2-digit' }),
+              priceAtResearch: report.marketPrice.price,
+              summary: `最新PE ${report.marketPrice.peRatio}倍，毛利率 ${report.fundamentals.grossMargin}%，完成 12 項研究驗證與反方風控。`,
+            },
+            ...prev.slice(0, 9),
+          ]);
+        }
       }
     }, 450);
   };
@@ -250,25 +274,25 @@ export const App: React.FC = () => {
                     <Layers className="w-5 h-5 text-indigo-400" />
                     <span>AI 智慧研究中心 8 大 Agent 核心架構</span>
                   </h3>
-                  <span className="text-xs text-cyan-400 font-mono">Phase 1 台股研究已上線</span>
+                  <span className="text-xs text-cyan-400 font-mono">Phase 1 台股 & Phase 2 期貨已上線</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800">
-                    <div className="font-bold text-cyan-400 mb-1">Agent 1: 總體經濟 Agent</div>
-                    <p className="text-slate-400">持續監控 Fed、CPI、10年美債與國際流動性。</p>
-                  </div>
                   <div className="p-3.5 bg-slate-950/60 rounded-xl border border-emerald-500/30 bg-emerald-950/10">
                     <div className="font-bold text-emerald-400 mb-1">Agent 2: 台股研究 Agent (Active)</div>
                     <p className="text-slate-400">TWSE 報價、MOPS 財報與法人籌碼官方資料整合。</p>
                   </div>
-                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-slate-800">
+                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-cyan-500/30 bg-cyan-950/10">
+                    <div className="font-bold text-cyan-400 mb-1">Agent 3: 期貨研究 Agent (Active)</div>
+                    <p className="text-slate-400">TAIFEX 台指期、選擇權 PCR、基差與三大法人避險對沖分析。</p>
+                  </div>
+                  <div className="p-3.5 bg-slate-950/60 rounded-xl border border-purple-500/30 bg-purple-950/10">
                     <div className="font-bold text-purple-400 mb-1">Agent 5: YouTube 觀點 Agent</div>
                     <p className="text-slate-400">逐字稿萃取多空情緒，嚴格區隔觀點與事實。</p>
                   </div>
                   <div className="p-3.5 bg-slate-950/60 rounded-xl border border-rose-500/30 bg-rose-950/10">
                     <div className="font-bold text-rose-400 mb-1">Agent 7: Devil's Advocate (Active)</div>
-                    <p className="text-slate-400">逆向尋找投資盲點、海外折舊與估值泡沫風險。</p>
+                    <p className="text-slate-400">逆向尋找投資盲點、海外折舊與期貨高槓桿風險。</p>
                   </div>
                 </div>
               </div>
@@ -307,20 +331,9 @@ export const App: React.FC = () => {
             />
           )}
 
-          {/* 期貨研究 Tab (Phase 2 Preview) */}
-          {activeTab === 'futures' && (
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-8 text-center max-w-2xl mx-auto space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto">
-                <LineChart className="w-6 h-6" />
-              </div>
-              <h2 className="text-xl font-bold text-white">期貨研究 Agent (Phase 2 籌備中)</h2>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                將直接串接臺灣期貨交易所 (TAIFEX) 官方數據，涵蓋台指期、電子期、金融期、選擇權 Call/Put 最大未平倉量、Put/Call Ratio、三大法人淨額與夜盤行情。
-              </p>
-              <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs text-left font-mono text-slate-300">
-                特別設定：「外資淨多／淨空」部位不直接等同於整體看多或看空，嚴格遵守 TAIFEX 法人集合多空抵銷準則。
-              </div>
-            </div>
+          {/* 期貨研究 Tab (TAIFEX 期貨研究 Agent) */}
+          {activeTab === 'futures' && !isResearching && (
+            <FuturesResearchView />
           )}
 
           {/* 房地產研究 Tab (Phase 3 Preview) */}

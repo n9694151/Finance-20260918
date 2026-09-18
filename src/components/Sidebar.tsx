@@ -30,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems = [
     { id: 'home', label: '首頁總覽', icon: LayoutDashboard },
     { id: 'stock-research', label: '台股研究 Agent', icon: TrendingUp, badge: 'Phase 1' },
-    { id: 'futures', label: '期貨研究 Agent', icon: LineChart, badge: 'Phase 2' },
+    { id: 'futures', label: '期貨研究 Agent', icon: LineChart, badge: 'Phase 2 Live' },
     { id: 'real-estate', label: '房地產研究 Agent', icon: Home, badge: 'Phase 3' },
     { id: 'macro', label: '總體經濟 Agent', icon: Globe },
     { id: 'youtube', label: 'YouTube 觀點 Agent', icon: Tv },
@@ -66,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {item.badge && (
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${
-                    item.badge === 'Phase 1'
+                    item.badge.includes('Live') || item.badge === 'Phase 1'
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       : 'bg-slate-800 text-slate-400'
                   }`}
