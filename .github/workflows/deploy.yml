@@ -49,8 +49,6 @@ jobs:
 
       - name: 設定 GitHub Pages 環境 (Setup Pages)
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: 上傳靜態產物 (Upload Artifact)
         uses: actions/upload-pages-artifact@v3
