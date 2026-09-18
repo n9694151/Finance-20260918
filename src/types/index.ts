@@ -29,11 +29,18 @@ export interface StockQuote {
   updateTime: string;
 }
 
+export interface EpsQuarterData {
+  quarter: string;
+  eps: number; // 個股每股盈餘 (EPS)
+  industryAvgEps: number; // 同類股平均 EPS
+  marketAvgEps: number; // 大盤平均 EPS
+}
+
 export interface FinancialFundamentals {
   revenueRecent12mYoY: number[]; // 近12月營收年增率
   revenueLatestMonth: string;
   revenueYoY: number; // 最新月營收 YoY
-  epsRecent8q: { quarter: string; eps: number }[]; // 近8季 EPS
+  epsRecent8q: EpsQuarterData[]; // 近8季 EPS 與同業/大盤對比資料
   grossMargin: number; // 最新毛利率 %
   grossMarginTrend: number[]; // 近8季毛利率
   operatingMargin: number; // 營業利益率 %

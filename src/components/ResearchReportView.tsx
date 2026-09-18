@@ -3,6 +3,7 @@ import {
   ResearchReport,
   InfoCategory,
 } from '../types';
+import { EpsTrendLineChart } from './EpsTrendLineChart';
 import {
   ShieldAlert,
   TrendingUp,
@@ -317,43 +318,26 @@ export const ResearchReportView: React.FC<ResearchReportViewProps> = ({
         </div>
       )}
 
-      {/* 4. Fundamentals & 8Q EPS Trends */}
+      {/* 4. Fundamentals & 8Q EPS Trends (Line Chart with Peer & Market comparison) */}
       {(activeTab === 'all' || activeTab === 'fundamentals') && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2 font-bold text-slate-100">
-              <BarChart3 className="w-5 h-5 text-cyan-400" />
-              <span>近 8 季每股盈餘 (EPS) 與獲利品質追蹤</span>
-            </div>
-            <span className="text-xs text-slate-400 font-mono">單位：新台幣元 (MOPS官方財報)</span>
-          </div>
+        <div className="space-y-4">
+          <EpsTrendLineChart
+            stockName={report.targetName}
+            stockSymbol={report.targetSymbol}
+            epsData={report.fundamentals.epsRecent8q}
+            industryName={report.targetSymbol === '2330' ? '半導體同業' : 'IC設計同業'}
+          />
 
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
-            {report.fundamentals.epsRecent8q.map((q) => (
-              <div
-                key={q.quarter}
-                className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3 text-center flex flex-col justify-end h-28 relative group hover:border-cyan-500/40 transition-all"
-              >
-                <div
-                  className="w-full bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all"
-                  style={{ height: `${Math.min((q.eps / 20) * 100, 100)}%` }}
-                ></div>
-                <div className="mt-2 text-xs font-mono font-bold text-white">{q.eps}</div>
-                <div className="text-[10px] text-slate-400">{q.quarter}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-800/60 text-xs">
-            <div className="p-3 bg-slate-950/40 rounded-xl border border-slate-800">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <span className="text-slate-400">營業利益率：</span>
               <span className="font-mono font-bold text-slate-200 ml-2">{report.fundamentals.operatingMargin}%</span>
             </div>
-            <div className="p-3 bg-slate-950/40 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <span className="text-slate-400">自由現金流：</span>
               <span className="font-mono font-bold text-slate-200 ml-2">NT$ {report.fundamentals.freeCashFlow} 億</span>
             </div>
-            <div className="p-3 bg-slate-950/40 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
               <span className="text-slate-400">負債比率：</span>
               <span className="font-mono font-bold text-slate-200 ml-2">{report.fundamentals.debtRatio}% (安全健康)</span>
             </div>
