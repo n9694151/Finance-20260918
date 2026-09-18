@@ -667,14 +667,221 @@ export const MOCK_REPORTS: Record<string, ResearchReport> = {
       { name: '公開資訊觀測站 (MOPS)', url: 'https://mops.twse.com.tw', lastUpdated: '本月最新公告' },
     ],
   },
+  '9958': {
+    id: 'report-9958-2026',
+    targetSymbol: '9958',
+    targetName: '世紀鋼 (Century Iron & Steel)',
+    generatedAt: '2026-09-18 14:30:00 (台北標準時間)',
+    marketPrice: {
+      symbol: '9958',
+      name: '世紀鋼',
+      price: 238.0,
+      change: 7.0,
+      changePercent: 3.03,
+      open: 232.0,
+      high: 241.5,
+      low: 231.0,
+      volume: 12850,
+      turnover: 30.5,
+      marketCap: 0.84,
+      peRatio: 21.6,
+      pbRatio: 3.85,
+      yieldRatio: 2.35,
+      updateTime: '2026-09-18 13:30 (收盤)',
+    },
+    fundamentals: {
+      revenueRecent12mYoY: [24.5, 28.2, 32.1, 35.8, 41.2, 45.6, 42.0, 39.5, 46.2, 48.0, 44.5, 42.8],
+      revenueLatestMonth: '2026年8月',
+      revenueYoY: 42.8,
+      epsRecent8q: [
+        { quarter: '24Q3', eps: 2.15, industryAvgEps: 1.10, marketAvgEps: 2.35 },
+        { quarter: '24Q4', eps: 2.48, industryAvgEps: 1.25, marketAvgEps: 2.50 },
+        { quarter: '25Q1', eps: 2.32, industryAvgEps: 1.18, marketAvgEps: 2.42 },
+        { quarter: '25Q2', eps: 2.85, industryAvgEps: 1.35, marketAvgEps: 2.65 },
+        { quarter: '25Q3', eps: 3.20, industryAvgEps: 1.50, marketAvgEps: 2.80 },
+        { quarter: '25Q4', eps: 3.55, industryAvgEps: 1.68, marketAvgEps: 2.92 },
+        { quarter: '26Q1', eps: 3.18, industryAvgEps: 1.55, marketAvgEps: 2.85 },
+        { quarter: '26Q2', eps: 3.82, industryAvgEps: 1.80, marketAvgEps: 3.10 },
+      ],
+      grossMargin: 28.6,
+      grossMarginTrend: [22.4, 24.1, 25.8, 27.2, 28.1, 28.6],
+      operatingMargin: 18.5,
+      netMargin: 15.2,
+      roe: 18.4,
+      freeCashFlow: 38.2,
+      debtRatio: 52.8,
+      inventoryTurnoverDays: 65,
+      capex: 22.5,
+    },
+    technicals: {
+      ma5: 233.5,
+      ma20: 225.0,
+      ma60: 212.0,
+      ma120: 195.0,
+      ma240: 178.0,
+      biasMa20: 5.78,
+      rsi14: 68.2,
+      macdDivergence: 'GOLDEN_CROSS',
+      high52w: 265.0,
+      low52w: 168.0,
+      volatility: 31.2,
+    },
+    institutions: {
+      date: '2026-09-18 (TWSE官方統計)',
+      foreignNet: 1450,
+      investmentTrustNet: 920,
+      dealerNet: 180,
+      marginBalance: 11200,
+      shortBalance: 450,
+      borrowingBalance: 18600,
+    },
+    valuationContext: {
+      historicalPeBand: [13.2, 28.5],
+      historicalPbBand: [2.1, 4.8],
+      industryAveragePe: 18.5,
+      valuationPercentile: 64.5,
+      comment: '目前 PE 約 21.6 倍，受惠離岸風電水下基礎 (Jacket) 大單放量與高毛利率支撐，評價處於歷史成長期合理區間。',
+    },
+    industryContext: {
+      theme: '離岸風電水下基礎 (Jacket / Pin Pile) 與鋼構工程龍頭',
+      supplyDemandStatus: '台灣離岸風電區塊開發 3-1 與 3-2 期密集下單，台北港重件碼頭五期新廠月產能達 4~5 座套管，產能稼動維持滿載。',
+      competitiveMoat: '台北港專用重件碼頭水深優勢、全台最大重型吊裝與水下基礎焊接組裝實績護城河。',
+      keyCatalysts: ['富崴能源風場水下基礎出貨認列', '渢妙風場合約簽署放量', '3-2 期風場訂單進展'],
+    },
+    youtubeOpinions: [
+      {
+        id: 'yt-century-1',
+        channel: '股市產業前瞻觀點',
+        title: '【離岸風電領頭羊】世紀鋼台北港五期全面投產，水下基礎營收爆發深度解析',
+        date: '2026-09-15',
+        sentiment: 'Bullish',
+        url: 'https://youtube.com/watch?v=sample_century1',
+        keyPoints: ['水下基礎產能滿載達 2029 年', '規模經濟帶動毛利率站穩 28% 以上'],
+        quotedData: '法人預期 2026 年水下基礎出貨創歷史新高',
+        isExplicitRecommendation: false,
+      },
+    ],
+    supportingArguments: [
+      {
+        id: 'sup-century-1',
+        category: 'FACT',
+        text: '8 月營收年增率 +42.8%，水下基礎密集交貨期帶動營業利益率站上 18.5%，在手大單能見度直達 2029 年。',
+        source: '公開資訊觀測站 (MOPS) / 經濟部能源署',
+      },
+      {
+        id: 'sup-century-2',
+        category: 'ANALYSIS',
+        text: '台北港南碼頭五期重件基地擴產效應顯現，Jacket 月產能爬坡順利，毛利率達 28.6%。',
+        source: '世紀鋼法說會與實地調研',
+      },
+    ],
+    devilsAdvocateArguments: [
+      {
+        id: 'dev-century-1',
+        category: 'RISK',
+        text: '【國產化政策逐步鬆綁之比價壓力】：經濟部配合歐盟 WTO 諮商研議彈性放寬國產化條款，若未來引入韓日低價水下基礎，恐壓縮世紀鋼長期毛利溢價空間。',
+        source: "Devil's Advocate 逆向風控模型",
+      },
+      {
+        id: 'dev-century-2',
+        category: 'RISK',
+        text: '【海事工程季節與天候延宕】：台灣海峽冬季海象惡劣，海上裝船與打樁作業受限，若出貨時程遞延恐使單季營收產生劇烈季節波動。',
+        source: "Devil's Advocate 逆向風控模型",
+      },
+    ],
+    majorRisks: [
+      {
+        id: 'risk-century-1',
+        category: 'RISK',
+        text: '經濟部離岸風電國產化規定鬆綁進程與鋼板原物料報價波動。',
+        source: '總體經濟與產業政策 Agent',
+      },
+    ],
+    keyTrackingMetrics: [
+      '每月 10 日前公布之 MOPS 營業收入 (水下基礎出貨認列進度)',
+      '台北港新廠產能稼動率與每月 Jacket 套管出貨座數',
+      '經濟部離岸風電 3-2 期遴選開發商下單簽約進展與國產化政策條款',
+      '三大法人投信與外資籌碼進出連續性',
+    ],
+    dataSources: [
+      { name: '臺灣證券交易所 (TWSE)', url: 'https://www.twse.com.tw', lastUpdated: '今日 13:30' },
+      { name: '公開資訊觀測站 (MOPS)', url: 'https://mops.twse.com.tw', lastUpdated: '本月最新公告' },
+    ],
+  },
 };
 
-// 智能股票研報查詢與自適應生成函式 (保證任何輸入都不會卡在台積電)
+// 臺灣重要上市櫃股票代號與名稱對照字典 (杜絕出現「台灣優質標的」等模糊字樣)
+export const TW_STOCK_MAP: Record<string, string> = {
+  '9958': '世紀鋼',
+  '2330': '台積電',
+  '2454': '聯發科',
+  '2317': '鴻海',
+  '3711': '日月光投控',
+  '2308': '台達電',
+  '2382': '廣達',
+  '3231': '緯創',
+  '6669': '緯穎',
+  '2376': '技嘉',
+  '2357': '華碩',
+  '2301': '光寶科',
+  '2345': '智邦',
+  '3008': '大立光',
+  '3034': '聯詠',
+  '2379': '瑞昱',
+  '2449': '京元電子',
+  '3017': '奇鋐',
+  '3324': '雙鴻',
+  '3653': '健策',
+  '6805': '富世達',
+  '1519': '華城',
+  '1503': '士電',
+  '1513': '中興電',
+  '1514': '亞力',
+  '2603': '長榮',
+  '2609': '陽明',
+  '2615': '萬海',
+  '2002': '中鋼',
+  '1301': '台塑',
+  '1303': '南亞',
+  '1326': '台化',
+  '6505': '台塑化',
+  '2881': '富邦金',
+  '2882': '國泰金',
+  '2891': '中信金',
+  '2886': '兆豐金',
+  '2884': '玉山金',
+  '2892': '第一金',
+  '2885': '元大金',
+  '5880': '合庫金',
+  '2409': '友達',
+  '3481': '群創',
+  '8069': '元太',
+  '3443': '創意',
+  '3661': '世芯-KY',
+  '6415': '矽力*-KY',
+  '3037': '欣興',
+  '8046': '南電',
+  '3189': '景碩',
+  '2618': '長榮航',
+  '2610': '華航',
+  '9910': '豐泰',
+  '9904': '寶成',
+  '1402': '遠東新',
+  '1101': '台泥',
+  '1102': '亞泥',
+  '6533': '晶心科',
+  '3529': '力旺',
+};
+
+// 智能股票研報查詢與自適應生成函式 (保證任何輸入都不會卡在台積電或模糊名稱)
 export function getOrGenerateResearchReport(query: string): ResearchReport {
   const trimmed = query.trim();
   const upper = trimmed.toUpperCase();
 
   // 1. 優先精準對應既有深入標的
+  if (trimmed.includes('9958') || trimmed.includes('世紀鋼') || upper.includes('CENTURY')) {
+    return MOCK_REPORTS['9958'];
+  }
   if (trimmed.includes('3711') || trimmed.includes('日月光') || upper.includes('ASE')) {
     return MOCK_REPORTS['3711'];
   }
@@ -688,10 +895,31 @@ export function getOrGenerateResearchReport(query: string): ResearchReport {
     return MOCK_REPORTS['2330'];
   }
 
-  // 2. 對於其他台股標的，提取代號與名稱自適應生成即時研報
+  // 2. 對於其他台股標的，透過字典查表提取正確代號與公司名稱
   const symbolMatch = trimmed.match(/\d{4}/);
-  const detectedSymbol = symbolMatch ? symbolMatch[0] : '8888';
-  const detectedName = trimmed.replace(/\d{4}/, '').trim() || `台灣優質標的 (${detectedSymbol})`;
+  let detectedSymbol = symbolMatch ? symbolMatch[0] : '';
+  let detectedName = '';
+
+  // 優先查表
+  if (detectedSymbol && TW_STOCK_MAP[detectedSymbol]) {
+    detectedName = TW_STOCK_MAP[detectedSymbol];
+  } else {
+    // 反向搜尋中文名稱
+    for (const [sym, name] of Object.entries(TW_STOCK_MAP)) {
+      if (trimmed.includes(name)) {
+        detectedSymbol = sym;
+        detectedName = name;
+        break;
+      }
+    }
+  }
+
+  if (!detectedSymbol) {
+    detectedSymbol = symbolMatch ? symbolMatch[0] : '8888';
+  }
+  if (!detectedName) {
+    detectedName = trimmed.replace(/\d{4}/, '').trim() || `台股個股 (${detectedSymbol})`;
+  }
 
   return {
     id: `rep-${detectedSymbol}-${Date.now()}`,
@@ -831,6 +1059,7 @@ export function getOrGenerateResearchReport(query: string): ResearchReport {
 
 export const QUICK_SEARCH_PROMPTS = [
   { label: '2330 台積電', query: '2330' },
+  { label: '9958 世紀鋼', query: '9958' },
   { label: '3711 日月光', query: '3711' },
   { label: '2454 聯發科', query: '2454' },
   { label: '2317 鴻海', query: '2317' },
